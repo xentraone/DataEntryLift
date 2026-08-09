@@ -3,13 +3,21 @@
     <string name="app_name">Lift Work Diary</string>
     <string name="title_entry">Work Entry</string>
     <string name="title_report">Weekly Report</string>
+    <string name="menu">Menu</string>
+    <string name="zero">0</string>
 
-    <string name="period_label">This report period: %1$s</string>
+    <string name="period_label">Report period  %1$s</string>
+    <string name="stat_nor">NOR HOURS</string>
+    <string name="stat_ot">OT HOURS</string>
+    <string name="stat_entries">ENTRIES</string>
+
     <string name="empty_hint">No entries yet for this period.\nTap NEW ENTRY to add today\'s work.</string>
-    <string name="new_entry">＋ New Entry</string>
-    <string name="report_png">Report (PNG)</string>
+    <string name="new_entry">New Entry</string>
+    <string name="report_png">Report PNG</string>
 
-    <string name="date_label">Date: %1$s</string>
+    <string name="section_work">WORK DETAILS</string>
+    <string name="section_hours">HOURS</string>
+    <string name="date_label">%1$s</string>
     <string name="holiday">Holiday</string>
     <string name="hint_job">JOB (pick from list or type)</string>
     <string name="hint_unit">UNIT</string>
@@ -18,7 +26,7 @@
     <string name="hint_ot1">OT1</string>
     <string name="hint_ot2">OT2</string>
     <string name="hint_ot3">OT3</string>
-    <string name="save">SAVE</string>
+    <string name="save">SAVE ENTRY</string>
     <string name="saved">Saved</string>
     <string name="job_required">Please choose or type the JOB first</string>
 
@@ -27,9 +35,9 @@
     <string name="delete_entry_message">Delete entry %1$s on %2$s?</string>
     <string name="delete_entry_confirm">This entry will be removed.</string>
 
-    <string name="choose_period">Choose the report week:</string>
+    <string name="choose_period">REPORT WEEK</string>
     <string name="report_preview">Report preview</string>
-    <string name="save_share">Save PNG &amp; Share (WhatsApp)</string>
+    <string name="save_share">Save PNG &amp; Share</string>
     <string name="report_saved">Report saved to Pictures/DataEntryLift</string>
     <string name="save_failed">Could not save: %1$s</string>
     <string name="share_report">Share report</string>

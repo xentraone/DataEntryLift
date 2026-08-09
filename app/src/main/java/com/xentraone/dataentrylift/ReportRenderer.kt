@@ -15,6 +15,8 @@ object ReportRenderer {
     private const val YELLOW = 0xFFFFFF00.toInt()
     private const val RED = 0xFFCC0000.toInt()
     private const val GRID = 0xFF555555.toInt()
+    private const val NAVY = 0xFF0F2A43.toInt()
+    private const val GOLD = 0xFFFFB300.toInt()
 
     private val colTitles = listOf("DATE", "JOB", "UNIT", "DX LOADER", "NOR", "OT1", "OT2", "OT3")
     private val colWidths = listOf(190f, 130f, 95f, 340f, 145f, 80f, 80f, 80f)
@@ -25,7 +27,8 @@ object ReportRenderer {
         val margin = 24f
         val rowH = 64f
         val headerH = 72f
-        val titleH = 96f
+        val bandH = 140f
+        val bandGap = 24f
         val totalH = 80f
 
         // One line per entry; days without entries still get an empty line so
@@ -45,7 +48,7 @@ object ReportRenderer {
 
         val tableW = colWidths.sum()
         val width = (tableW + margin * 2).toInt()
-        val height = (titleH + headerH + rowH * lines.size + totalH + margin * 2).toInt()
+        val height = (bandH + bandGap + headerH + rowH * lines.size + totalH + margin).toInt()
 
         val bmp = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         val canvas = Canvas(bmp)
@@ -63,25 +66,28 @@ object ReportRenderer {
         }
         val boldText = Paint(text).apply { typeface = Typeface.DEFAULT_BOLD }
         val redText = Paint(boldText).apply { color = RED }
-        val titleText = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            textSize = 38f
-            color = Color.BLACK
-            typeface = Typeface.DEFAULT_BOLD
-            textAlign = Paint.Align.CENTER
-        }
-
         // Column left edges.
         val colX = FloatArray(colWidths.size + 1)
         colX[0] = margin
         for (i in colWidths.indices) colX[i + 1] = colX[i] + colWidths[i]
 
-        // Title.
-        canvas.drawText(
-            "LIFT WORK REPORT   " + Periods.label(from, to),
-            width / 2f, margin + titleH / 2f + 12f, titleText
-        )
+        // Navy title band across the full width.
+        fill.color = NAVY
+        canvas.drawRect(0f, 0f, width.toFloat(), bandH, fill)
+        val titleText = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            textSize = 44f
+            color = Color.WHITE
+            typeface = Typeface.DEFAULT_BOLD
+        }
+        canvas.drawText("LIFT WORK REPORT", margin + 8f, 62f, titleText)
+        val subtitleText = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+            textSize = 30f
+            color = GOLD
+            typeface = Typeface.DEFAULT_BOLD
+        }
+        canvas.drawText(Periods.label(from, to), margin + 8f, 110f, subtitleText)
 
-        val tableTop = margin + titleH
+        val tableTop = bandH + bandGap
 
         // Header row.
         for (i in colTitles.indices) {

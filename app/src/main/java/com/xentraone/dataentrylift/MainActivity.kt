@@ -2,9 +2,9 @@ package com.xentraone.dataentrylift
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import android.view.View
+import android.widget.ImageButton
+import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -39,6 +39,7 @@ class MainActivity : AppCompatActivity() {
         findViewById<MaterialButton>(R.id.btnReport).setOnClickListener {
             startActivity(Intent(this, ReportActivity::class.java))
         }
+        findViewById<ImageButton>(R.id.btnMenu).setOnClickListener { v -> showMenu(v) }
     }
 
     override fun onResume() {
@@ -54,6 +55,47 @@ class MainActivity : AppCompatActivity() {
         adapter.setEntries(entries)
         findViewById<TextView>(R.id.emptyLabel).visibility =
             if (entries.isEmpty()) View.VISIBLE else View.GONE
+
+        val nor = entries.sumOf { it.nor.trim().toDoubleOrNull() ?: 0.0 }
+        val ot = entries.sumOf { it.ot1 + it.ot2 + it.ot3 }
+        findViewById<TextView>(R.id.statNor).text = Fmt.num(nor)
+        findViewById<TextView>(R.id.statOt).text = Fmt.num(ot)
+        findViewById<TextView>(R.id.statEntries).text = entries.size.toString()
+    }
+
+    private fun showMenu(anchor: View) {
+        val menu = PopupMenu(this, anchor)
+        menu.menuInflater.inflate(R.menu.main_menu, menu.menu)
+        menu.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.action_sample -> {
+                    AlertDialog.Builder(this)
+                        .setTitle(R.string.load_sample)
+                        .setMessage(R.string.load_sample_message)
+                        .setPositiveButton(android.R.string.ok) { _, _ ->
+                            SampleData.load(db)
+                            refresh()
+                        }
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .show()
+                    true
+                }
+                R.id.action_clear -> {
+                    AlertDialog.Builder(this)
+                        .setTitle(R.string.clear_all)
+                        .setMessage(R.string.clear_all_message)
+                        .setPositiveButton(R.string.delete) { _, _ ->
+                            db.deleteAll()
+                            refresh()
+                        }
+                        .setNegativeButton(android.R.string.cancel, null)
+                        .show()
+                    true
+                }
+                else -> false
+            }
+        }
+        menu.show()
     }
 
     private fun confirmDelete(e: Entry) {
@@ -66,40 +108,5 @@ class MainActivity : AppCompatActivity() {
             }
             .setNegativeButton(android.R.string.cancel, null)
             .show()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.main_menu, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_sample -> {
-                AlertDialog.Builder(this)
-                    .setTitle(R.string.load_sample)
-                    .setMessage(R.string.load_sample_message)
-                    .setPositiveButton(android.R.string.ok) { _, _ ->
-                        SampleData.load(db)
-                        refresh()
-                    }
-                    .setNegativeButton(android.R.string.cancel, null)
-                    .show()
-                true
-            }
-            R.id.action_clear -> {
-                AlertDialog.Builder(this)
-                    .setTitle(R.string.clear_all)
-                    .setMessage(R.string.clear_all_message)
-                    .setPositiveButton(R.string.delete) { _, _ ->
-                        db.deleteAll()
-                        refresh()
-                    }
-                    .setNegativeButton(android.R.string.cancel, null)
-                    .show()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
     }
 }

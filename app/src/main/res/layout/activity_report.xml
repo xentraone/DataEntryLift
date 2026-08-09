@@ -1,51 +1,97 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bg"
     android:orientation="vertical">
 
-    <TextView
+    <com.google.android.material.appbar.MaterialToolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/navy"
+        app:navigationIcon="@drawable/ic_back"
+        app:title="@string/title_report"
+        app:titleTextColor="@android:color/white" />
+
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
-        android:paddingTop="12dp"
-        android:text="@string/choose_period"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:layout_margin="14dp"
+        app:cardBackgroundColor="@color/card"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="2dp"
+        app:contentPaddingLeft="14dp"
+        app:contentPaddingRight="14dp"
+        app:contentPaddingTop="10dp"
+        app:contentPaddingBottom="6dp"
+        app:strokeColor="@color/divider"
+        app:strokeWidth="1dp">
 
-    <Spinner
-        android:id="@+id/periodSpinner"
-        android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:letterSpacing="0.1"
+                android:text="@string/choose_period"
+                android:textColor="@color/textSecondary"
+                android:textSize="12sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/periodSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="52dp" />
+        </LinearLayout>
+    </com.google.android.material.card.MaterialCardView>
 
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginStart="14dp"
+        android:layout_marginEnd="14dp"
         android:layout_weight="1">
 
         <ScrollView
             android:layout_width="wrap_content"
             android:layout_height="match_parent">
 
-            <ImageView
-                android:id="@+id/preview"
+            <com.google.android.material.card.MaterialCardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:adjustViewBounds="true"
-                android:contentDescription="@string/report_preview"
-                android:padding="8dp" />
+                android:layout_marginBottom="8dp"
+                app:cardBackgroundColor="@color/card"
+                app:cardCornerRadius="12dp"
+                app:cardElevation="3dp">
+
+                <ImageView
+                    android:id="@+id/preview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:adjustViewBounds="true"
+                    android:contentDescription="@string/report_preview" />
+            </com.google.android.material.card.MaterialCardView>
         </ScrollView>
     </HorizontalScrollView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnShare"
         android:layout_width="match_parent"
-        android:layout_height="64dp"
-        android:layout_margin="12dp"
+        android:layout_height="60dp"
+        android:layout_margin="14dp"
         android:text="@string/save_share"
-        android:textSize="18sp" />
+        android:textColor="@color/navyDark"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:backgroundTint="@color/gold"
+        app:cornerRadius="16dp"
+        app:icon="@drawable/ic_share"
+        app:iconGravity="textStart"
+        app:iconTint="@color/navyDark" />
 
 </LinearLayout>

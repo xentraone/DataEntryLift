@@ -1,9 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary">#F9A825</color>
-    <color name="primaryDark">#F57F17</color>
-    <color name="secondary">#37474F</color>
+    <color name="navy">#0F2A43</color>
+    <color name="navyLight">#1C3D5F</color>
+    <color name="navyDark">#0A1D30</color>
+    <color name="gold">#FFB300</color>
+    <color name="goldDeep">#B27500</color>
+    <color name="bg">#F4F6F9</color>
+    <color name="card">#FFFFFF</color>
+    <color name="textPrimary">#16283A</color>
+    <color name="textSecondary">#64748B</color>
+    <color name="divider">#E2E8F0</color>
+    <color name="red">#D32F2F</color>
     <color name="yellow">#FFEB3B</color>
-    <color name="red">#CC0000</color>
-    <color name="iconBackground">#FFEB3B</color>
+    <color name="iconBackground">#0F2A43</color>
+
+    <!-- kept for the theme -->
+    <color name="primary">#0F2A43</color>
+    <color name="primaryDark">#0A1D30</color>
+    <color name="secondary">#FFB300</color>
 </resources>

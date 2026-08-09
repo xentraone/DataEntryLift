@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 
 class EntryAdapter(
@@ -23,7 +24,7 @@ class EntryAdapter(
         var lastDate = ""
         for (e in entries) {
             if (e.date != lastDate) {
-                rows.add(Row.Header(Periods.display(e.date)))
+                rows.add(Row.Header(Periods.headerLabel(e.date)))
                 lastDate = e.date
             }
             rows.add(Row.Item(e))
@@ -59,16 +60,45 @@ class EntryAdapter(
 
     private class ItemVH(view: View) : RecyclerView.ViewHolder(view) {
         fun bind(e: Entry, onClick: (Entry) -> Unit, onLongClick: (Entry) -> Unit) {
-            itemView.findViewById<TextView>(R.id.line1).text =
-                listOf(e.job, e.unit, e.dx).filter { it.isNotBlank() }.joinToString("  ·  ")
-            val hours = buildString {
-                if (e.nor.isNotBlank()) append("NOR ").append(e.nor)
-                if (e.ot1 != 0.0) append("   OT1 ").append(Fmt.num(e.ot1))
-                if (e.ot2 != 0.0) append("   OT2 ").append(Fmt.num(e.ot2))
-                if (e.ot3 != 0.0) append("   OT3 ").append(Fmt.num(e.ot3))
+            val ctx = itemView.context
+            itemView.findViewById<TextView>(R.id.jobText).text = e.job
+
+            val unitChip = itemView.findViewById<TextView>(R.id.unitChip)
+            if (e.unit.isBlank()) {
+                unitChip.visibility = View.GONE
+            } else {
+                unitChip.visibility = View.VISIBLE
+                unitChip.text = e.unit
             }
-            itemView.findViewById<TextView>(R.id.line2).text =
-                if (hours.isBlank()) "—" else hours
+
+            itemView.findViewById<TextView>(R.id.dxText).text =
+                if (e.dx.isBlank()) "—" else e.dx
+
+            val norText = itemView.findViewById<TextView>(R.id.norText)
+            val norNum = e.nor.trim().toDoubleOrNull()
+            when {
+                e.nor.isBlank() -> {
+                    norText.text = ""
+                }
+                norNum != null -> {
+                    norText.text = Fmt.num(norNum) + " h"
+                    norText.setTextColor(ContextCompat.getColor(ctx, R.color.navy))
+                }
+                else -> {
+                    norText.text = e.nor
+                    norText.setTextColor(ContextCompat.getColor(ctx, R.color.red))
+                }
+            }
+
+            val ot = e.ot1 + e.ot2 + e.ot3
+            val otText = itemView.findViewById<TextView>(R.id.otText)
+            if (ot == 0.0) {
+                otText.visibility = View.GONE
+            } else {
+                otText.visibility = View.VISIBLE
+                otText.text = "OT " + Fmt.num(ot)
+            }
+
             itemView.setOnClickListener { onClick(e) }
             itemView.setOnLongClickListener { onLongClick(e); true }
         }

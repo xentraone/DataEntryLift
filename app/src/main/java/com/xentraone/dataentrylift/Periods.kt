@@ -36,4 +36,13 @@ object Periods {
     fun display(date: LocalDate): String = date.format(DISPLAY)
 
     fun display(isoDate: String): String = display(LocalDate.parse(isoDate))
+
+    /** e.g. "Monday · 03-08-2026" for the list section headers. */
+    fun headerLabel(isoDate: String): String {
+        val d = LocalDate.parse(isoDate)
+        val day = d.dayOfWeek.getDisplayName(
+            java.time.format.TextStyle.FULL, java.util.Locale.ENGLISH
+        )
+        return day + " · " + display(d)
+    }
 }
