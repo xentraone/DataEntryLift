@@ -8,6 +8,10 @@ import android.widget.PopupMenu
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.button.MaterialButton
@@ -22,6 +26,21 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         db = EntryDb(this)
+
+        // Keep the header and bottom buttons out of the status/navigation bar
+        // areas on edge-to-edge devices (Android 15+).
+        val header = findViewById<View>(R.id.headerRoot)
+        val bottomBar = findViewById<View>(R.id.bottomBar)
+        val headerPadTop = header.paddingTop
+        val bottomBarPadBottom = bottomBar.paddingBottom
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.rootMain)) { _, insets ->
+            val bars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            header.updatePadding(top = headerPadTop + bars.top)
+            bottomBar.updatePadding(bottom = bottomBarPadBottom + bars.bottom)
+            insets
+        }
+        WindowCompat.getInsetsController(window, window.decorView)
+            .isAppearanceLightNavigationBars = true
 
         val list = findViewById<RecyclerView>(R.id.entryList)
         list.layoutManager = LinearLayoutManager(this)

@@ -20,7 +20,8 @@
         <activity
             android:name=".EntryActivity"
             android:label="@string/title_entry"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".MainActivity"
+            android:windowSoftInputMode="adjustResize" />
 
         <activity
             android:name=".ReportActivity"
