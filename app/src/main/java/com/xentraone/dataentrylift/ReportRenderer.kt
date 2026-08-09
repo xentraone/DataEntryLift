@@ -71,21 +71,21 @@ object ReportRenderer {
         colX[0] = margin
         for (i in colWidths.indices) colX[i + 1] = colX[i] + colWidths[i]
 
-        // Navy title band across the full width.
+        // Navy header band with the technician's name and CN number.
         fill.color = NAVY
         canvas.drawRect(0f, 0f, width.toFloat(), bandH, fill)
         val titleText = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            textSize = 44f
+            textSize = 40f
             color = Color.WHITE
             typeface = Typeface.DEFAULT_BOLD
         }
-        canvas.drawText("LIFT WORK REPORT", margin + 8f, 62f, titleText)
+        canvas.drawText("Name : M. Kader Ibrahim Saheb", margin + 8f, 60f, titleText)
         val subtitleText = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-            textSize = 30f
+            textSize = 32f
             color = GOLD
             typeface = Typeface.DEFAULT_BOLD
         }
-        canvas.drawText(Periods.label(from, to), margin + 8f, 110f, subtitleText)
+        canvas.drawText("Cn.no : 99018126", margin + 8f, 110f, subtitleText)
 
         val tableTop = bandH + bandGap
 

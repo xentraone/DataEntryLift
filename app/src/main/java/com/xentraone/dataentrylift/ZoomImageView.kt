@@ -115,11 +115,10 @@ class ZoomImageView @JvmOverloads constructor(
     }
 
     override fun onTouchEvent(event: MotionEvent): Boolean {
+        // Never let parent views steal the gesture from the preview.
+        parent?.requestDisallowInterceptTouchEvent(true)
         scaleDetector.onTouchEvent(event)
         gestureDetector.onTouchEvent(event)
-        if (event.pointerCount > 1 || zoom > 1f) {
-            parent?.requestDisallowInterceptTouchEvent(true)
-        }
         if (event.action == MotionEvent.ACTION_UP) performClick()
         return true
     }
