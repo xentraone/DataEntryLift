@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- lift cabin -->
+    <path
+        android:fillColor="#37474F"
+        android:pathData="M34,34 h40 v44 h-40 z" />
+    <path
+        android:fillColor="#FFEB3B"
+        android:pathData="M38,38 h15 v36 h-15 z M55,38 h15 v36 h-15 z" />
+    <!-- up arrow -->
+    <path
+        android:fillColor="#CC0000"
+        android:pathData="M45.5,58 L45.5,48 L41,48 L47.5,40 L54,48 L49.5,48 L49.5,58 Z" />
+    <!-- down arrow -->
+    <path
+        android:fillColor="#37474F"
+        android:pathData="M60.5,54 L60.5,64 L56,64 L62.5,72 L69,64 L64.5,64 L64.5,54 Z" />
+</vector>

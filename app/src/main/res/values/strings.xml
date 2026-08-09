@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Lift Work Diary</string>
+    <string name="title_entry">Work Entry</string>
+    <string name="title_report">Weekly Report</string>
+
+    <string name="period_label">This report period: %1$s</string>
+    <string name="empty_hint">No entries yet for this period.\nTap NEW ENTRY to add today\'s work.</string>
+    <string name="new_entry">＋ New Entry</string>
+    <string name="report_png">Report (PNG)</string>
+
+    <string name="date_label">Date: %1$s</string>
+    <string name="holiday">Holiday</string>
+    <string name="hint_job">JOB (pick from list or type)</string>
+    <string name="hint_unit">UNIT</string>
+    <string name="hint_dx">DX LOADER</string>
+    <string name="hint_nor">NOR hours (or call back)</string>
+    <string name="hint_ot1">OT1</string>
+    <string name="hint_ot2">OT2</string>
+    <string name="hint_ot3">OT3</string>
+    <string name="save">SAVE</string>
+    <string name="saved">Saved</string>
+    <string name="job_required">Please choose or type the JOB first</string>
+
+    <string name="delete">Delete</string>
+    <string name="delete_entry">Delete this entry?</string>
+    <string name="delete_entry_message">Delete entry %1$s on %2$s?</string>
+    <string name="delete_entry_confirm">This entry will be removed.</string>
+
+    <string name="choose_period">Choose the report week:</string>
+    <string name="report_preview">Report preview</string>
+    <string name="save_share">Save PNG &amp; Share (WhatsApp)</string>
+    <string name="report_saved">Report saved to Pictures/DataEntryLift</string>
+    <string name="save_failed">Could not save: %1$s</string>
+    <string name="share_report">Share report</string>
+
+    <string name="load_sample">Load sample week</string>
+    <string name="load_sample_message">This adds the example week (01-08-2026 to 08-08-2026) from the Excel sheet as test data.</string>
+    <string name="clear_all">Delete ALL entries</string>
+    <string name="clear_all_message">This removes every saved entry. Saved PNG reports in Pictures are kept.</string>
+</resources>
