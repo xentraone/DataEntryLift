@@ -63,13 +63,11 @@
         app:cardCornerRadius="12dp"
         app:cardElevation="3dp">
 
-        <ImageView
+        <com.xentraone.dataentrylift.ZoomImageView
             android:id="@+id/preview"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:contentDescription="@string/report_preview"
-            android:padding="6dp"
-            android:scaleType="fitCenter" />
+            android:contentDescription="@string/report_preview" />
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.button.MaterialButton
