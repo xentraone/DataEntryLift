@@ -21,6 +21,9 @@ object ReportRenderer {
     private val colTitles = listOf("DATE", "JOB", "UNIT", "DX LOADER", "NOR", "OT1", "OT2", "OT3")
     private val colWidths = listOf(190f, 130f, 95f, 340f, 145f, 80f, 80f, 80f)
 
+    /** Like the Excel sheet: every date block shows 5 rows, blanks included. */
+    private const val ROWS_PER_DAY = 5
+
     private class Line(val date: LocalDate, val entry: Entry?)
 
     fun render(entries: List<Entry>, from: LocalDate, to: LocalDate): Bitmap {
@@ -31,18 +34,15 @@ object ReportRenderer {
         val bandGap = 24f
         val totalH = 80f
 
-        // One line per entry; days without entries still get an empty line so
-        // the whole period is visible.
+        // Every date block gets ROWS_PER_DAY rows (padded with blanks), just
+        // like the Excel sheet; days with more entries grow as needed.
         val byDate = entries.groupBy { LocalDate.parse(it.date) }
         val lines = mutableListOf<Line>()
         var d = from
         while (!d.isAfter(to)) {
-            val dayEntries = byDate[d]
-            if (dayEntries.isNullOrEmpty()) {
-                lines.add(Line(d, null))
-            } else {
-                for (e in dayEntries) lines.add(Line(d, e))
-            }
+            val dayEntries = byDate[d].orEmpty()
+            for (e in dayEntries) lines.add(Line(d, e))
+            repeat(maxOf(0, ROWS_PER_DAY - dayEntries.size)) { lines.add(Line(d, null)) }
             d = d.plusDays(1)
         }
 
