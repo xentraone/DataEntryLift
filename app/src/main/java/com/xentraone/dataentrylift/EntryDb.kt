@@ -70,6 +70,16 @@ class EntryDb(context: Context) : SQLiteOpenHelper(context, "entries.db", null, 
         return out
     }
 
+    fun all(): List<Entry> {
+        val out = mutableListOf<Entry>()
+        readableDatabase.query(
+            "entries", null, null, null, null, null, "date ASC, id ASC"
+        ).use { c ->
+            while (c.moveToNext()) out.add(readEntry(c))
+        }
+        return out
+    }
+
     fun count(): Long {
         readableDatabase.rawQuery("SELECT COUNT(*) FROM entries", null).use { c ->
             if (c.moveToFirst()) return c.getLong(0)

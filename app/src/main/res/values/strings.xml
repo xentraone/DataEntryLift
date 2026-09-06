@@ -42,6 +42,16 @@
     <string name="save_failed">Could not save: %1$s</string>
     <string name="share_report">Share report</string>
 
+    <string name="prev_week">Previous week</string>
+    <string name="next_week">Next week</string>
+
+    <string name="backup_entries">Backup entries to file</string>
+    <string name="restore_entries">Restore entries from file</string>
+    <string name="backup_done">Backup saved (%1$d entries)</string>
+    <string name="backup_failed">Backup failed: %1$s</string>
+    <string name="restore_done">Restored %1$d entries</string>
+    <string name="restore_failed">Restore failed: %1$s</string>
+
     <string name="load_sample">Load sample week</string>
     <string name="load_sample_message">This adds the example week (01-08-2026 to 08-08-2026) from the Excel sheet as test data.</string>
     <string name="clear_all">Delete ALL entries</string>
