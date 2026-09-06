@@ -53,8 +53,8 @@
     <string name="import_done">Added %1$d entries from the image</string>
     <string name="import_failed">Import failed: %1$s</string>
 
-    <string name="backup_entries">Backup entries to file</string>
-    <string name="restore_entries">Restore entries from file</string>
+    <string name="backup_entries">Export ALL data (to file)</string>
+    <string name="restore_entries">Import ALL data (from file)</string>
     <string name="backup_done">Backup saved (%1$d entries)</string>
     <string name="backup_failed">Backup failed: %1$s</string>
     <string name="restore_done">Restored %1$d entries</string>
