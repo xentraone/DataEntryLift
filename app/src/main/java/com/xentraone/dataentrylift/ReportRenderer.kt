@@ -19,7 +19,7 @@ object ReportRenderer {
     private const val GOLD = 0xFFFFB300.toInt()
 
     private val colTitles = listOf("DATE", "JOB", "UNIT", "DX LOADER", "NOR", "OT1", "OT2", "OT3")
-    private val colWidths = listOf(190f, 130f, 95f, 340f, 145f, 80f, 80f, 80f)
+    private val colWidths = ReportLayout.COL_WIDTHS
 
     /** Like the Excel sheet: every date block shows 5 rows, blanks included. */
     private const val ROWS_PER_DAY = 5
@@ -27,12 +27,12 @@ object ReportRenderer {
     private class Line(val date: LocalDate, val entry: Entry?)
 
     fun render(entries: List<Entry>, from: LocalDate, to: LocalDate): Bitmap {
-        val margin = 24f
-        val rowH = 64f
-        val headerH = 72f
-        val bandH = 140f
-        val bandGap = 24f
-        val totalH = 80f
+        val margin = ReportLayout.MARGIN
+        val rowH = ReportLayout.ROW_H
+        val headerH = ReportLayout.HEADER_H
+        val bandH = ReportLayout.BAND_H
+        val bandGap = ReportLayout.BAND_GAP
+        val totalH = ReportLayout.TOTAL_H
 
         // Every date block gets ROWS_PER_DAY rows (padded with blanks), just
         // like the Excel sheet; days with more entries grow as needed.

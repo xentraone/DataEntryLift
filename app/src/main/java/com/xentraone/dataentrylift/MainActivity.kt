@@ -2,6 +2,7 @@ package com.xentraone.dataentrylift
 
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
@@ -38,6 +39,10 @@ class MainActivity : AppCompatActivity() {
     private val restoreLauncher = registerForActivityResult(
         ActivityResultContracts.OpenDocument()
     ) { uri -> if (uri != null) readBackup(uri) }
+
+    private val importImageLauncher = registerForActivityResult(
+        ActivityResultContracts.OpenDocument()
+    ) { uri -> if (uri != null) importFromImage(uri) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -87,6 +92,17 @@ class MainActivity : AppCompatActivity() {
                 refresh()
             }
         }
+
+        // A report PNG shared to the app (from Gallery/WhatsApp) is imported.
+        if (intent?.action == Intent.ACTION_SEND && intent.type?.startsWith("image/") == true) {
+            @Suppress("DEPRECATION")
+            val shared: Uri? = if (Build.VERSION.SDK_INT >= 33) {
+                intent.getParcelableExtra(Intent.EXTRA_STREAM, Uri::class.java)
+            } else {
+                intent.getParcelableExtra(Intent.EXTRA_STREAM)
+            }
+            if (shared != null) importFromImage(shared)
+        }
     }
 
     override fun onResume() {
@@ -119,6 +135,10 @@ class MainActivity : AppCompatActivity() {
         menu.menuInflater.inflate(R.menu.main_menu, menu.menu)
         menu.setOnMenuItemClickListener { item ->
             when (item.itemId) {
+                R.id.action_import_image -> {
+                    importImageLauncher.launch(arrayOf("image/*"))
+                    true
+                }
                 R.id.action_backup -> {
                     backupLauncher.launch("LiftDiary_backup_" + LocalDate.now() + ".json")
                     true
@@ -157,6 +177,51 @@ class MainActivity : AppCompatActivity() {
         menu.show()
     }
 
+    private fun keyOf(e: Entry): List<Any> =
+        listOf(e.date, e.job, e.unit, e.dx, e.nor, e.ot1, e.ot2, e.ot3)
+
+    private fun importFromImage(uri: Uri) {
+        Toast.makeText(this, R.string.import_reading, Toast.LENGTH_SHORT).show()
+        ReportImageImporter.import(
+            this, uri,
+            onResult = { entries ->
+                val dates = entries.map { it.date }.sorted()
+                AlertDialog.Builder(this)
+                    .setTitle(R.string.import_title)
+                    .setMessage(
+                        getString(
+                            R.string.import_message, entries.size,
+                            Periods.display(dates.first()), Periods.display(dates.last())
+                        )
+                    )
+                    .setPositiveButton(R.string.import_add) { _, _ ->
+                        val existing = db.all().map { keyOf(it) }.toHashSet()
+                        var added = 0
+                        for (e in entries) {
+                            val k = keyOf(e)
+                            if (k !in existing) {
+                                db.insert(e)
+                                existing.add(k)
+                                added++
+                            }
+                        }
+                        period = Periods.periodOf(java.time.LocalDate.parse(dates.first()))
+                        refresh()
+                        Toast.makeText(
+                            this, getString(R.string.import_done, added), Toast.LENGTH_LONG
+                        ).show()
+                    }
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show()
+            },
+            onError = { msg ->
+                Toast.makeText(
+                    this, getString(R.string.import_failed, msg), Toast.LENGTH_LONG
+                ).show()
+            }
+        )
+    }
+
     private fun writeBackup(uri: Uri) {
         try {
             val arr = JSONArray()
@@ -186,9 +251,7 @@ class MainActivity : AppCompatActivity() {
             val text = contentResolver.openInputStream(uri)!!
                 .bufferedReader(Charsets.UTF_8).readText()
             val arr = JSONArray(text)
-            val existing = db.all()
-                .map { listOf(it.date, it.job, it.unit, it.dx, it.nor, it.ot1, it.ot2, it.ot3) }
-                .toHashSet()
+            val existing = db.all().map { keyOf(it) }.toHashSet()
             var added = 0
             for (i in 0 until arr.length()) {
                 val o = arr.getJSONObject(i)
@@ -202,7 +265,7 @@ class MainActivity : AppCompatActivity() {
                     ot2 = o.optDouble("ot2", 0.0),
                     ot3 = o.optDouble("ot3", 0.0)
                 )
-                val key = listOf(e.date, e.job, e.unit, e.dx, e.nor, e.ot1, e.ot2, e.ot3)
+                val key = keyOf(e)
                 if (key !in existing) {
                     db.insert(e)
                     existing.add(key)

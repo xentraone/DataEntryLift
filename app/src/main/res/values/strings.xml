@@ -45,6 +45,14 @@
     <string name="prev_week">Previous week</string>
     <string name="next_week">Next week</string>
 
+    <string name="import_from_image">Import entries from report image</string>
+    <string name="import_reading">Reading the report image…</string>
+    <string name="import_title">Add these entries?</string>
+    <string name="import_message">Found %1$d entries from %2$s to %3$s in the image. Add them? (Already existing entries are skipped.)</string>
+    <string name="import_add">Add entries</string>
+    <string name="import_done">Added %1$d entries from the image</string>
+    <string name="import_failed">Import failed: %1$s</string>
+
     <string name="backup_entries">Backup entries to file</string>
     <string name="restore_entries">Restore entries from file</string>
     <string name="backup_done">Backup saved (%1$d entries)</string>
